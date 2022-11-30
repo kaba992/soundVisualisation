@@ -1,0 +1,22 @@
+{
+  "name": "three-nebula-quickstart",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.html",
+  "scripts": {
+    "start": "parcel index.html --open",
+    "build": "parcel build index.html"
+  },
+  "dependencies": {
+    "gsap": "^3.11.3",
+    "reset-css": "5.0.1",
+    "s": "^1.0.0",
+    "three": "0.146.0",
+    "three-nebula": "10.0.3"
+  },
+  "devDependencies": {
+    "@babel/core": "7.2.0",
+    "parcel-bundler": "^1.6.1"
+  },
+  "keywords": []
+}
