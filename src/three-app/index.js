@@ -6,7 +6,7 @@ export let renderer;
 
 export default () => {
   camera = new PerspectiveCamera(
-    70,
+    35,
     window.innerWidth / window.innerHeight,
     1,
     100

@@ -36110,6 +36110,10 @@ if (typeof window !== 'undefined') {
     window.__THREE__ = REVISION;
   }
 }
+},{}],"src/fragment.glsl":[function(require,module,exports) {
+module.exports = "#define GLSLIFY 1\n  varying vec3 vNormal;\n  \n\n  \n  void main() {\n    \n    \n    gl_FragColor = vec4(vNormal, 1.0);\n  }  ";
+},{}],"src/vertex.glsl":[function(require,module,exports) {
+module.exports = "#define GLSLIFY 1\nuniform float uTime;\nuniform float uNoiseStrength;\nvarying vec3 vNormal;\nuniform float uSpeed;\nuniform float uNoiseDensity;\n\n// attribute type is used for the data that change among the vertices\nattribute float aRandom;\n\n  // GLSL textureless classic 3D noise \"cnoise\",\n  // with an RSL-style periodic variant \"pnoise\".\n  // Author:  Stefan Gustavson (stefan.gustavson@liu.se)\n  // Version: 2011-10-11\n  //\n  // Many thanks to Ian McEwan of Ashima Arts for the\n  // ideas for permutation and gradient selection.\n  //\n  // Copyright (c) 2011 Stefan Gustavson. All rights reserved.\n  // Distributed under the MIT license. See LICENSE file.\n  // https://github.com/ashima/webgl-noise\n  //\n\nvec3 mod289(vec3 x) {\n    return x - floor(x * (1.0 / 289.0)) * 289.0;\n}\n\nvec4 mod289(vec4 x) {\n    return x - floor(x * (1.0 / 289.0)) * 289.0;\n}\n\nvec4 permute(vec4 x) {\n    return mod289(((x * 34.0) + 1.0) * x);\n}\n\nvec4 taylorInvSqrt(vec4 r) {\n    return 1.79284291400159 - 0.85373472095314 * r;\n}\n\nvec3 fade(vec3 t) {\n    return t * t * t * (t * (t * 6.0 - 15.0) + 10.0);\n}\n\n  // Classic Perlin noise, periodic variant\nfloat pnoise(vec3 P, vec3 rep) {\n    vec3 Pi0 = mod(floor(P), rep); // Integer part, modulo period\n    vec3 Pi1 = mod(Pi0 + vec3(1.0), rep); // Integer part + 1, mod period\n    Pi0 = mod289(Pi0);\n    Pi1 = mod289(Pi1);\n    vec3 Pf0 = fract(P); // Fractional part for interpolation\n    vec3 Pf1 = Pf0 - vec3(1.0); // Fractional part - 1.0\n    vec4 ix = vec4(Pi0.x, Pi1.x, Pi0.x, Pi1.x);\n    vec4 iy = vec4(Pi0.yy, Pi1.yy);\n    vec4 iz0 = Pi0.zzzz;\n    vec4 iz1 = Pi1.zzzz;\n\n    vec4 ixy = permute(permute(ix) + iy);\n    vec4 ixy0 = permute(ixy + iz0);\n    vec4 ixy1 = permute(ixy + iz1);\n\n    vec4 gx0 = ixy0 * (1.0 / 7.0);\n    vec4 gy0 = fract(floor(gx0) * (1.0 / 7.0)) - 0.5;\n    gx0 = fract(gx0);\n    vec4 gz0 = vec4(0.5) - abs(gx0) - abs(gy0);\n    vec4 sz0 = step(gz0, vec4(0.0));\n    gx0 -= sz0 * (step(0.0, gx0) - 0.5);\n    gy0 -= sz0 * (step(0.0, gy0) - 0.5);\n\n    vec4 gx1 = ixy1 * (1.0 / 7.0);\n    vec4 gy1 = fract(floor(gx1) * (1.0 / 7.0)) - 0.5;\n    gx1 = fract(gx1);\n    vec4 gz1 = vec4(0.5) - abs(gx1) - abs(gy1);\n    vec4 sz1 = step(gz1, vec4(0.0));\n    gx1 -= sz1 * (step(0.0, gx1) - 0.5);\n    gy1 -= sz1 * (step(0.0, gy1) - 0.5);\n\n    vec3 g000 = vec3(gx0.x, gy0.x, gz0.x);\n    vec3 g100 = vec3(gx0.y, gy0.y, gz0.y);\n    vec3 g010 = vec3(gx0.z, gy0.z, gz0.z);\n    vec3 g110 = vec3(gx0.w, gy0.w, gz0.w);\n    vec3 g001 = vec3(gx1.x, gy1.x, gz1.x);\n    vec3 g101 = vec3(gx1.y, gy1.y, gz1.y);\n    vec3 g011 = vec3(gx1.z, gy1.z, gz1.z);\n    vec3 g111 = vec3(gx1.w, gy1.w, gz1.w);\n\n    vec4 norm0 = taylorInvSqrt(vec4(dot(g000, g000), dot(g010, g010), dot(g100, g100), dot(g110, g110)));\n    g000 *= norm0.x;\n    g010 *= norm0.y;\n    g100 *= norm0.z;\n    g110 *= norm0.w;\n    vec4 norm1 = taylorInvSqrt(vec4(dot(g001, g001), dot(g011, g011), dot(g101, g101), dot(g111, g111)));\n    g001 *= norm1.x;\n    g011 *= norm1.y;\n    g101 *= norm1.z;\n    g111 *= norm1.w;\n\n    float n000 = dot(g000, Pf0);\n    float n100 = dot(g100, vec3(Pf1.x, Pf0.yz));\n    float n010 = dot(g010, vec3(Pf0.x, Pf1.y, Pf0.z));\n    float n110 = dot(g110, vec3(Pf1.xy, Pf0.z));\n    float n001 = dot(g001, vec3(Pf0.xy, Pf1.z));\n    float n101 = dot(g101, vec3(Pf1.x, Pf0.y, Pf1.z));\n    float n011 = dot(g011, vec3(Pf0.x, Pf1.yz));\n    float n111 = dot(g111, Pf1);\n\n    vec3 fade_xyz = fade(Pf0);\n    vec4 n_z = mix(vec4(n000, n100, n010, n110), vec4(n001, n101, n011, n111), fade_xyz.z);\n    vec2 n_yz = mix(n_z.xy, n_z.zw, fade_xyz.y);\n    float n_xyz = mix(n_yz.x, n_yz.y, fade_xyz.x);\n    return 2.2 * n_xyz;\n}\n\nvoid main() {\n    float t = uTime * uSpeed;\n    float distortion = pnoise((normal + t) * uNoiseDensity, vec3(10.0)) * uNoiseStrength;\n\n    vec3 pos = position + (normal * distortion) * uNoiseStrength;\n\n    vNormal = normal;\n\n    gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.);\n}";
 },{}],"node_modules/three-nebula/build/esm/behaviour/types.js":[function(require,module,exports) {
 "use strict";
 
@@ -49004,7 +49008,7 @@ exports.camera = camera;
 var renderer;
 exports.renderer = renderer;
 var _default = function _default() {
-  exports.camera = camera = new _three.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 100);
+  exports.camera = camera = new _three.PerspectiveCamera(35, window.innerWidth / window.innerHeight, 1, 100);
   camera.position.z = 30;
   exports.scene = scene = new _three.Scene();
   exports.renderer = renderer = new _three.WebGLRenderer();
@@ -49022,7 +49026,7 @@ exports.default = _default;
 },{"three":"node_modules/three/build/three.module.js"}],"src/emit1.json":[function(require,module,exports) {
 module.exports = {
   "headerState": {
-    "projectName": "C:\\Users\\ikkab\\Downloads\\Nebula\\test4",
+    "projectName": "C:\\Users\\ikkab\\Downloads\\nebula\\final",
     "version": {
       "loading": false,
       "error": null,
@@ -49646,6 +49650,8 @@ module.exports = "/Seyar.e64c5cac.mp3";
 
 require("./styles.css");
 var THREE = _interopRequireWildcard(require("three"));
+var _fragment = _interopRequireDefault(require("./fragment.glsl"));
+var _vertex = _interopRequireDefault(require("./vertex.glsl"));
 var _threeNebula = _interopRequireWildcard(require("three-nebula"));
 var _threeApp = _interopRequireDefault(require("./three-app"));
 var _emit = _interopRequireDefault(require("./emit1.json"));
@@ -49659,83 +49665,137 @@ function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o =
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 function _iterableToArrayLimit(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0) { ; } } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i.return && (_r = _i.return(), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-var app = (0, _threeApp.default)();
 var clickBtn = document.querySelector(".click");
-var sound, listener, analyser, data;
-var emitters = [];
 clickBtn.addEventListener("click", function () {
-  loadSound();
+  init();
+  // loadSound();
   clickBtn.style.display = "none";
 });
+var init = function init() {
+  var app = (0, _threeApp.default)();
+  var settings = {
+    speed: 0.2,
+    density: 2.5
+  };
+  var clock = new THREE.Clock();
+  var emitters = [];
 
-// create an Audio source
-// load a sound and set it as the Audio object's buffer
-function loadSound() {
-  listener = new THREE.AudioListener();
+  // create an Audio source
+  // load a sound and set it as the Audio object's buffer
+
+  var listener = new THREE.AudioListener();
   app.camera.add(listener);
-  console.log(app.camera);
-  sound = new THREE.Audio(listener);
+  var sound = new THREE.Audio(listener);
   var audioLoader = new THREE.AudioLoader();
   audioLoader.load(_Seyar.default, function (buffer) {
     sound.setBuffer(buffer);
     sound.setLoop(true);
     sound.setVolume(0.5);
-    // sound.play();
-    console.log(sound, 'jrgfhgfgfhgfhg');
+    sound.play();
   });
-  analyser = new THREE.AudioAnalyser(sound, 128);
-  data = analyser;
-}
-var sphere = new THREE.Mesh(new THREE.SphereGeometry(1, 32, 32), new THREE.MeshBasicMaterial());
-sphere.position.set(0, 0, 20);
-app.scene.add(sphere);
-// create an AudioAnalyser, passing in the sound and desired fftSize
+  var analyser = new THREE.AudioAnalyser(sound, 128);
+  var data = analyser;
+  var geometry = new THREE.SphereBufferGeometry(1, 50, 50);
+  // console.log(geometry)
 
-function animate(nebula, app) {
-  requestAnimationFrame(function () {
-    return animate(nebula, app);
-  });
-  if (data) {
-    var soundFreq = data.getAverageFrequency();
-    console.log(soundFreq);
+  var count = geometry.attributes.position.count; //number of vertices in the geometry
+  var randoms = new Float32Array(count);
+  for (var i = 0; i < count; i++) {
+    randoms[i] = Math.random();
   }
-  nebula.update();
-  app.renderer.render(app.scene, app.camera);
-}
-_threeNebula.default.fromJSONAsync(_emit.default.particleSystemState, THREE).then(function (loaded) {
-  loaded.emitters.forEach(function (emitter) {
-    console.log(emitter, 'emitter');
-    emitter.alpha = 0;
-    emitter.position.y = -500;
-    // make emitter not visible
+  // console.log(randoms)
 
-    // emitter.behaviours.forEach(behaviour => {
-    //  if (behaviour.type ==="Alpha") {
-
-    //    console.log(behaviour);
-    //  }
-    // });
-
-    emitters.push(emitter);
-    // console.log(emitter);
+  geometry.setAttribute('aRandom', new THREE.BufferAttribute(randoms, 1));
+  console.log(geometry);
+  var SphereMaterial = new THREE.ShaderMaterial({
+    vertexShader: _vertex.default,
+    fragmentShader: _fragment.default,
+    uniforms: {
+      uTime: {
+        value: 0
+      },
+      uNoiseStrength: {
+        value: 0
+      },
+      uSpeed: {
+        value: settings.speed
+      },
+      uNoiseDensity: {
+        value: settings.density * Math.random()
+      }
+    }
+    // wireframe: true,
   });
 
-  var nebulaRenderer = new _threeNebula.SpriteRenderer(app.scene, THREE);
-  var nebula = loaded.addRenderer(nebulaRenderer);
-  animate(nebula, app);
-});
-
-// iterate over the emitters object type
-console.log(emitters);
-emitters.forEach(function (emitter) {
-  for (var _i = 0, _Object$entries = Object.entries(emitter); _i < _Object$entries.length; _i++) {
-    var _Object$entries$_i = _slicedToArray(_Object$entries[_i], 2),
-      key = _Object$entries$_i[0],
-      value = _Object$entries$_i[1];
-    console.log(key, value);
+  var time = 0;
+  var sphere = new THREE.Mesh(geometry, SphereMaterial);
+  sphere.position.set(0, 0, 20);
+  app.scene.add(sphere);
+  // create an AudioAnalyser, passing in the sound and desired fftSize
+  var soundFreq;
+  function animate(nebula, app) {
+    requestAnimationFrame(function () {
+      return animate(nebula, app);
+    });
+    nebula.update();
+    app.renderer.render(app.scene, app.camera);
   }
-});
-},{"./styles.css":"src/styles.css","three":"node_modules/three/build/three.module.js","three-nebula":"node_modules/three-nebula/build/esm/index.js","./three-app":"src/three-app/index.js","./emit1.json":"src/emit1.json","./Seyar.mp3":"src/Seyar.mp3"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+  _threeNebula.default.fromJSONAsync(_emit.default.particleSystemState, THREE).then(function (loaded) {
+    var _loop = function _loop(_i) {
+      var emitter = loaded.emitters[_i];
+      // emitter.position.y = -350;
+      var montagnegauche = loaded.emitters[0];
+      var etoile = loaded.emitters[1];
+      var montagnedroite = loaded.emitters[2];
+      var fumée = loaded.emitters[3];
+      montagnegauche.name = "montagnegauche";
+      etoile.name = "etoile";
+      montagnedroite.name = "montagnedroite";
+      fumée.name = "fumée";
+      function update() {
+        time += 0.05;
+        var elapsedTime = clock.getElapsedTime();
+        var freq = data.getAverageFrequency();
+        // if (freq > 0 && freq < 50) {
+        //   etoile.position.y = 0;
+        // } else {
+        //   etoile.position.y = -350;
+        // }
+        // if (freq > 50 && freq < 100) {
+        //   montagnegauche.position.y = 0;
+        //   fumée.position.y = 0;
+        // } else {
+        //   montagnegauche.position.y = -350;
+        //   fumée.position.y = -350;
+        // }
+
+        sphere.material.uniforms.uNoiseStrength.value = freq / 256;
+        sphere.material.uniforms.uTime.value = elapsedTime;
+        // console.log(sphere.material.uniforms.uFrequency.value);
+        // console.log(sphere.material.uniforms.uTime.value);
+        requestAnimationFrame(update);
+      }
+      update();
+    };
+    for (var _i = 0; _i < loaded.emitters.length; _i++) {
+      _loop(_i);
+    }
+    var nebulaRenderer = new _threeNebula.SpriteRenderer(app.scene, THREE);
+    var nebula = loaded.addRenderer(nebulaRenderer);
+    animate(nebula, app);
+  });
+
+  // iterate over the emitters object type
+  emitters.forEach(function (emitter) {
+    for (var _i2 = 0, _Object$entries = Object.entries(emitter); _i2 < _Object$entries.length; _i2++) {
+      var _Object$entries$_i = _slicedToArray(_Object$entries[_i2], 2),
+        key = _Object$entries$_i[0],
+        value = _Object$entries$_i[1];
+      console.log(key, value);
+    }
+  });
+};
+},{"./styles.css":"src/styles.css","three":"node_modules/three/build/three.module.js","./fragment.glsl":"src/fragment.glsl","./vertex.glsl":"src/vertex.glsl","three-nebula":"node_modules/three-nebula/build/esm/index.js","./three-app":"src/three-app/index.js","./emit1.json":"src/emit1.json","./Seyar.mp3":"src/Seyar.mp3"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -49760,7 +49820,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "33989" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "35063" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

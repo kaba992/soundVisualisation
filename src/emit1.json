@@ -1,12 +1,18 @@
 {
 	"headerState": {
-		"projectName": "C:\\Users\\ikkab\\Downloads\\Nebula\\test4",
+		"projectName": "C:\\Users\\ikkab\\Downloads\\nebula\\final",
 		"version": {
 			"loading": false,
 			"error": null,
-			"data": { "version": "1.0.8-alpha" }
+			"data": {
+				"version": "1.0.8-alpha"
+			}
 		},
-		"release": { "loading": false, "error": null, "data": null },
+		"release": {
+			"loading": false,
+			"error": null,
+			"data": null
+		},
 		"shouldShowReleaseDownloadDialog": false
 	},
 	"particleSystemState": {
@@ -17,25 +23,44 @@
 				"id": "b68c3ae0-7088-11ed-b80d-9d19ddaa6470",
 				"totalEmitTimes": null,
 				"life": null,
-				"cache": { "totalEmitTimes": 0, "life": 0 },
+				"cache": {
+					"totalEmitTimes": 0,
+					"life": 0
+				},
 				"rate": {
 					"particlesMin": 5,
 					"particlesMax": 5,
 					"perSecondMin": 1,
 					"perSecondMax": 0.02
 				},
-				"position": { "x": -50, "y": 0, "z": 0 },
-				"rotation": { "x": 0.7, "y": 0, "z": 0 },
+				"position": {
+					"x": -50,
+					"y": 0,
+					"z": 0
+				},
+				"rotation": {
+					"x": 0.7,
+					"y": 0,
+					"z": 0
+				},
 				"initializers": [
 					{
 						"id": "b68c3ae1-7088-11ed-b80d-9d19ddaa6470",
 						"type": "Mass",
-						"properties": { "min": 30, "max": 10, "isEnabled": true }
+						"properties": {
+							"min": 30,
+							"max": 10,
+							"isEnabled": true
+						}
 					},
 					{
 						"id": "b68c3ae2-7088-11ed-b80d-9d19ddaa6470",
 						"type": "Life",
-						"properties": { "min": 2, "max": 4, "isEnabled": true }
+						"properties": {
+							"min": 2,
+							"max": 4,
+							"isEnabled": true
+						}
 					},
 					{
 						"id": "b68c3ae3-7088-11ed-b80d-9d19ddaa6470",
@@ -48,7 +73,11 @@
 					{
 						"id": "b68c3ae4-7088-11ed-b80d-9d19ddaa6470",
 						"type": "Radius",
-						"properties": { "width": 30, "height": 4, "isEnabled": true }
+						"properties": {
+							"width": 30,
+							"height": 4,
+							"isEnabled": true
+						}
 					},
 					{
 						"id": "b68c3ae5-7088-11ed-b80d-9d19ddaa6470",
@@ -160,25 +189,44 @@
 				"id": "0ab0a560-708a-11ed-b80d-9d19ddaa6470",
 				"totalEmitTimes": null,
 				"life": null,
-				"cache": { "totalEmitTimes": 0, "life": 0 },
+				"cache": {
+					"totalEmitTimes": 0,
+					"life": 0
+				},
 				"rate": {
 					"particlesMin": 1,
 					"particlesMax": 5,
 					"perSecondMin": 1,
 					"perSecondMax": 0.02
 				},
-				"position": { "x": 44, "y": 0, "z": 21 },
-				"rotation": { "x": 0, "y": 0.23, "z": 0 },
+				"position": {
+					"x": 44,
+					"y": 0,
+					"z": 21
+				},
+				"rotation": {
+					"x": 0,
+					"y": 0.23,
+					"z": 0
+				},
 				"initializers": [
 					{
 						"id": "0ab0a561-708a-11ed-b80d-9d19ddaa6470",
 						"type": "Mass",
-						"properties": { "min": 30, "max": 10, "isEnabled": true }
+						"properties": {
+							"min": 30,
+							"max": 10,
+							"isEnabled": true
+						}
 					},
 					{
 						"id": "0ab0a562-708a-11ed-b80d-9d19ddaa6470",
 						"type": "Life",
-						"properties": { "min": 2, "max": 4, "isEnabled": true }
+						"properties": {
+							"min": 2,
+							"max": 4,
+							"isEnabled": true
+						}
 					},
 					{
 						"id": "0ab0a563-708a-11ed-b80d-9d19ddaa6470",
@@ -191,7 +239,11 @@
 					{
 						"id": "0ab0a564-708a-11ed-b80d-9d19ddaa6470",
 						"type": "Radius",
-						"properties": { "width": 12, "height": 4, "isEnabled": true }
+						"properties": {
+							"width": 12,
+							"height": 4,
+							"isEnabled": true
+						}
 					},
 					{
 						"id": "0ab0a565-708a-11ed-b80d-9d19ddaa6470",
@@ -303,25 +355,44 @@
 				"id": "65536450-7097-11ed-b80d-9d19ddaa6470",
 				"totalEmitTimes": null,
 				"life": null,
-				"cache": { "totalEmitTimes": 0, "life": 0 },
+				"cache": {
+					"totalEmitTimes": 0,
+					"life": 0
+				},
 				"rate": {
 					"particlesMin": 5,
 					"particlesMax": 5,
 					"perSecondMin": 1,
 					"perSecondMax": 0.02
 				},
-				"position": { "x": 60, "y": 0, "z": 0 },
-				"rotation": { "x": -0.7, "y": 0, "z": 0 },
+				"position": {
+					"x": 60,
+					"y": 0,
+					"z": 0
+				},
+				"rotation": {
+					"x": -0.7,
+					"y": 0,
+					"z": 0
+				},
 				"initializers": [
 					{
 						"id": "65536451-7097-11ed-b80d-9d19ddaa6470",
 						"type": "Mass",
-						"properties": { "min": 30, "max": 10, "isEnabled": true }
+						"properties": {
+							"min": 30,
+							"max": 10,
+							"isEnabled": true
+						}
 					},
 					{
 						"id": "65536452-7097-11ed-b80d-9d19ddaa6470",
 						"type": "Life",
-						"properties": { "min": 2, "max": 4, "isEnabled": true }
+						"properties": {
+							"min": 2,
+							"max": 4,
+							"isEnabled": true
+						}
 					},
 					{
 						"id": "65536453-7097-11ed-b80d-9d19ddaa6470",
@@ -334,7 +405,11 @@
 					{
 						"id": "65536454-7097-11ed-b80d-9d19ddaa6470",
 						"type": "Radius",
-						"properties": { "width": 30, "height": 4, "isEnabled": true }
+						"properties": {
+							"width": 30,
+							"height": 4,
+							"isEnabled": true
+						}
 					},
 					{
 						"id": "65536455-7097-11ed-b80d-9d19ddaa6470",
@@ -446,25 +521,44 @@
 				"id": "d365d6c0-7098-11ed-b80d-9d19ddaa6470",
 				"totalEmitTimes": null,
 				"life": null,
-				"cache": { "totalEmitTimes": 0, "life": 0 },
+				"cache": {
+					"totalEmitTimes": 0,
+					"life": 0
+				},
 				"rate": {
 					"particlesMin": 5,
 					"particlesMax": 5,
 					"perSecondMin": 1,
 					"perSecondMax": 0.02
 				},
-				"position": { "x": 15, "y": 0, "z": 0 },
-				"rotation": { "x": 0.7, "y": 0, "z": 0 },
+				"position": {
+					"x": 15,
+					"y": 0,
+					"z": 0
+				},
+				"rotation": {
+					"x": 0.7,
+					"y": 0,
+					"z": 0
+				},
 				"initializers": [
 					{
 						"id": "d365d6c1-7098-11ed-b80d-9d19ddaa6470",
 						"type": "Mass",
-						"properties": { "min": 10, "max": 30, "isEnabled": true }
+						"properties": {
+							"min": 10,
+							"max": 30,
+							"isEnabled": true
+						}
 					},
 					{
 						"id": "d365d6c2-7098-11ed-b80d-9d19ddaa6470",
 						"type": "Life",
-						"properties": { "min": 2, "max": 4, "isEnabled": true }
+						"properties": {
+							"min": 2,
+							"max": 4,
+							"isEnabled": true
+						}
 					},
 					{
 						"id": "d365d6c3-7098-11ed-b80d-9d19ddaa6470",
@@ -477,7 +571,11 @@
 					{
 						"id": "d365d6c4-7098-11ed-b80d-9d19ddaa6470",
 						"type": "Radius",
-						"properties": { "width": 15, "height": 4, "isEnabled": true }
+						"properties": {
+							"width": 15,
+							"height": 4,
+							"isEnabled": true
+						}
 					},
 					{
 						"id": "d365d6c5-7098-11ed-b80d-9d19ddaa6470",
